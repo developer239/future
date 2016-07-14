@@ -16,6 +16,10 @@
     "autoload": {
         "psr-4": {
             "MichalJarnot\\": "src/",
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "MichalJarnot\\Tests\\": "tests/"
         }
     },
