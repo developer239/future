@@ -1,4 +1,6 @@
 <?php
+namespace MichalJarnot;
+
 use PHPUnit\Framework\TestCase;
 
 class FutureTest extends TestCase
