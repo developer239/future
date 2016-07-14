@@ -9,7 +9,7 @@ namespace MichalJarnot;
  * Lets say that you have something like $count = $totalCount->add(5)->subtract(3)->divide(2)->result()
  *
  * Now if you want to know what methods will follow when method add() is executed
- * simply call \MichalJarnot\Future::guessFutureEvents(). You will get array filled with the information
+ * simply call \MichalJarnot\Future::predictFuture(). You will get array filled with the information
  * you need.
  *
  * Class Future
@@ -44,7 +44,7 @@ class Future
      * @param array $debug_backtrace
      * @return array
      */
-    public static function guessFutureEvents($debug_backtrace)
+    public static function predictFuture($debug_backtrace)
     {
         // Get debug backtrace of a calling method
         $debug_backtrace = $debug_backtrace[0];
@@ -69,16 +69,4 @@ class Future
         return $future_methods;
     }
 
-    /**
-     * Returns method name that will follow the method that called this.
-     *
-     * @param $debug_backtrace
-     * @param int $index
-     * @return mixed
-     */
-    public static function getNextEvent($debug_backtrace, $index = 0)
-    {
-        $future = self::guessFutureEvents($debug_backtrace);
-        return $future[$index];
-    }
 }
