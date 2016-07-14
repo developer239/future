@@ -1,0 +1,18 @@
+{
+    "name": "michaljarnot/future",
+    "description": "It can predict future!",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "MichalJarnot",
+            "email": "m.jarnot@yahoo.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-0": {
+            "MichalJarnot": "src/"
+        }
+    }
+}
