@@ -17,4 +17,4 @@ Don't worry. Now you can adapt behaviour of your code by the code that follows a
         }
     }
 
-**Happy debugging!**
+Happy debugging!
