@@ -9,7 +9,7 @@ namespace MichalJarnot;
  * Lets say that you have something like $count = $totalCount->add(5)->subtract(3)->divide(2)->result()
  *
  * Now if you want to know what methods will follow after method add() is executed
- * simply call \MichalJarnot\Future::predictFuture(). You will get an array filled with the information
+ * simply call \MichalJarnot\Future::predictFuture(). You will get an array with the information
  * you need.
  *
  * Class Future
