@@ -25,7 +25,7 @@ class Future
      * @param $end
      * @return array
      */
-    private static function get_stuff_between($string, $start, $end)
+    private static function getMethodNamesBetween($string, $start, $end)
     {
         $split_string = explode($end, $string);
         $return = array();
@@ -60,7 +60,7 @@ class Future
         $end = ";";
 
         // Get the chain of the future
-        $target_line_substring = self::get_stuff_between($target_line, $start, $end);
+        $target_line_substring = self::getMethodNamesBetween($target_line, $start, $end);
         $target_line_substring = $target_line_substring[0];
 
         // Get all the future methods
