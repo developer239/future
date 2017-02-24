@@ -18,11 +18,15 @@ namespace MichalJarnot;
 class Future
 {
     /**
-     * Returns array of substrings from a string.
+     * Returns expression string.
+     *
+     * When we have code like `$start->add(4)->subtract(5)->getResult()`
+     * and the add method calls `Future::predictFuture` method
+     * then this method should return `->subtract(5)->getResult()`
      *
      * @param $string
      * @param $start
-     * @return array
+     * @return string
      */
     private static function getMethodNamesBetween($string, $start)
     {
@@ -37,6 +41,10 @@ class Future
 
     /**
      * Returns array of methods that are chained on method that called this.
+     *
+     * When we have code like `$start->add(4)->subtract(5)->getResult()`
+     * and the add method calls `Future::predictFuture` method
+     * then this method should return ['subtract', 'getResult']
      *
      * @param array $debug_backtrace
      * @return array
