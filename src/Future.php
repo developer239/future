@@ -22,20 +22,17 @@ class Future
      *
      * @param $string
      * @param $start
-     * @param $end
      * @return array
      */
-    private static function getMethodNamesBetween($string, $start, $end)
+    private static function getMethodNamesBetween($string, $start)
     {
-        $split_string = explode($end, $string);
-        $return = array();
-        foreach ($split_string as $data) {
-            $str_pos = strpos($data, $start);
-            $last_pos = strlen($data);
-            $capture_len = $last_pos - $str_pos;
-            $return[] = substr($data, $str_pos, $capture_len);
-        }
-        return $return;
+        $expression = explode(";", $string)[0];
+
+        $first_pos = strpos($expression, $start);
+        $last_pos = strlen($expression);
+        $capture_len = $last_pos - $first_pos;
+
+        return substr($expression, $first_pos, $capture_len);
     }
 
     /**
@@ -49,24 +46,34 @@ class Future
         // Get debug backtrace of a calling method
         $debug_backtrace = $debug_backtrace[0];
 
-        // Get target line
+        // Get target file
         $file = file($debug_backtrace["file"]);
-        $target_line = $file[($debug_backtrace["line"] - 1)];
 
-        // Start on target line from a calling method
+        // Build expression string
+        $search_string = "";
+        $line_index = 1;
+        $semicolon_not_found = true;
+
+        while($semicolon_not_found) {
+            $line_content = $file[($debug_backtrace["line"] - $line_index)];
+            $search_string .= trim($line_content);
+
+            if(strpos($line_content, ";") !== false) {
+                $semicolon_not_found = false;
+            }
+
+            $line_index -= 1;
+        }
+
+        // Start on target line from a calling method with its parameters
         $start = $debug_backtrace["function"] . "(" . implode(", ", $debug_backtrace["args"]) . ")";
 
-        // End with ; lets just suppose that people do not use break key
-        $end = ";";
+        // Get the methods chain
+        $target_line_substring = self::getMethodNamesBetween($search_string, $start);
 
-        // Get the chain of the future
-        $target_line_substring = self::getMethodNamesBetween($target_line, $start, $end);
-        $target_line_substring = $target_line_substring[0];
-
-        // Get all the future methods
+        // Get all method names from the string
         $future_methods = explode("->", trim(preg_replace('/\s*\([^)]*\)/', '', $target_line_substring)));
 
         return $future_methods;
     }
-
 }
