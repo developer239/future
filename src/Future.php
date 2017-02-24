@@ -32,11 +32,11 @@ class Future
     {
         $expression = explode(";", $string)[0];
 
-        $first_pos = strpos($expression, $start);
-        $last_pos = strlen($expression);
-        $capture_len = $last_pos - $first_pos;
+        $firstPos = strpos($expression, $start);
+        $lastPos = strlen($expression);
+        $captureLen = $lastPos - $firstPos;
 
-        return substr($expression, $first_pos, $capture_len);
+        return substr($expression, $firstPos, $captureLen);
     }
 
     /**
@@ -46,42 +46,42 @@ class Future
      * and the add method calls `Future::predictFuture` method
      * then this method should return ['subtract', 'getResult']
      *
-     * @param array $debug_backtrace
+     * @param array $debugBacktrace
      * @return array
      */
-    public static function predictFuture($debug_backtrace)
+    public static function predictFuture($debugBacktrace)
     {
         // Get debug backtrace of a calling method
-        $debug_backtrace = $debug_backtrace[0];
+        $debugBacktrace = $debugBacktrace[0];
 
         // Get target file
-        $file = file($debug_backtrace["file"]);
+        $file = file($debugBacktrace["file"]);
 
         // Build expression string
-        $search_string = "";
-        $line_index = 1;
-        $semicolon_not_found = true;
+        $searchString = "";
+        $lineIndex = 1;
+        $semicolonNotFound = true;
 
-        while($semicolon_not_found) {
-            $line_content = $file[($debug_backtrace["line"] - $line_index)];
-            $search_string .= trim($line_content);
+        while($semicolonNotFound) {
+            $lineContent = $file[($debugBacktrace["line"] - $lineIndex)];
+            $searchString .= trim($lineContent);
 
-            if(strpos($line_content, ";") !== false) {
-                $semicolon_not_found = false;
+            if(strpos($lineContent, ";") !== false) {
+                $semicolonNotFound = false;
             }
 
-            $line_index -= 1;
+            $lineIndex -= 1;
         }
 
         // Start on target line from a calling method with its parameters
-        $start = $debug_backtrace["function"] . "(" . implode(", ", $debug_backtrace["args"]) . ")";
+        $start = $debugBacktrace["function"] . "(" . implode(", ", $debugBacktrace["args"]) . ")";
 
         // Get the methods chain
-        $target_line_substring = self::getMethodNamesBetween($search_string, $start);
+        $targetLineSubstring = self::getMethodNamesBetween($searchString, $start);
 
         // Get all method names from the string
-        $future_methods = explode("->", trim(preg_replace('/\s*\([^)]*\)/', '', $target_line_substring)));
+        $futureMethods = explode("->", trim(preg_replace('/\s*\([^)]*\)/', '', $targetLineSubstring)));
 
-        return $future_methods;
+        return $futureMethods;
     }
 }
