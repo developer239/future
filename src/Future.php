@@ -65,11 +65,7 @@ class Future
         while($semicolonNotFound) {
             $lineContent = $file[($debugBacktrace["line"] - $lineIndex)];
             $searchString .= trim($lineContent);
-
-            if(strpos($lineContent, ";") !== false) {
-                $semicolonNotFound = false;
-            }
-
+            $semicolonNotFound = !strpos($lineContent, ";");
             $lineIndex -= 1;
         }
 
