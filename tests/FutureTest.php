@@ -6,14 +6,44 @@ use PHPUnit\Framework\TestCase;
 
 class FutureTest extends TestCase
 {
+    public function testIgnoreAddMethod()
+    {
+        $number = $this->add(5)->getCounterValue();
+        $this->assertEquals(0, $number);
+    }
+
+    public function testExecuteAddMethod()
+    {
+        $number = $this->add(7)->subtract(1)->getCounterValue();
+        $this->assertEquals(6, $number);
+    }
+
+    public function testExecuteAddMethodMultipleLines()
+    {
+        $number = $this->add(7)
+            ->subtract(1)
+            ->getCounterValue();
+        $this->assertEquals(6, $number);
+    }
+
+    public function testIgnoreAddMethodMultipleLines()
+    {
+        $number = $this->add(2)
+            ->add(2)
+            ->add(2)
+            ->add(2)
+            ->getCounterValue();
+        $this->assertEquals(0, $number);
+    }
+
     /**
      * TODO: Create separate mock object.
      *
-     * Mock count variable.
+     * Mock counter variable.
      *
      * @var int
      */
-    private $count = 0;
+    private $counter = 0;
 
     /**
      * TODO: Create separate mock object.
@@ -27,9 +57,9 @@ class FutureTest extends TestCase
     {
         $future = Future::predictFuture(debug_backtrace());
 
-        // Adds to count only if there is a subtract method somewhere in the future
+        // Adds to counter only if there is a subtract method somewhere in the future
         if (in_array("subtract", $future)) {
-            $this->count += $number;
+            $this->counter += $number;
         }
 
         return $this;
@@ -45,7 +75,7 @@ class FutureTest extends TestCase
      */
     private function subtract($number)
     {
-        $this->count -= $number;
+        $this->counter -= $number;
         return $this;
     }
 
@@ -56,29 +86,8 @@ class FutureTest extends TestCase
      *
      * @return int
      */
-    private function result()
+    private function getCounterValue()
     {
-        return $this->count;
+        return $this->counter;
     }
-
-    public function testIgnoreAddMethod()
-    {
-        $number = $this->add(5)->result();
-        $this->assertEquals(0, $number);
-    }
-
-    public function testExecuteAddMethod()
-    {
-        $number = $this->add(7)->subtract(1)->result();
-        $this->assertEquals(6, $number);
-    }
-
-    // TODO: Make prediction work on multiple lines
-    // public function testExecuteAddMethodMultipleLines()
-    // {
-    //     $number = $this->add(7)
-    //         ->subtract(1)
-    //         ->result();
-    //     $this->assertEquals(6, $number);
-    // }
 }
