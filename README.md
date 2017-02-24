@@ -11,7 +11,7 @@ Don't worry. Now you can adapt behaviour of your code according to the code that
 	    
 	    // If there is your colleague's cool method about to be executed you can just omit your code
 	    if (in_array("yourColleaguesCoolMethod", $future)) {
-	        return;
+	        return $this;
         } else {
 	        // do the ugly stuff here
         }
