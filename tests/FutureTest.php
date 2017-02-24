@@ -36,6 +36,14 @@ class FutureTest extends TestCase
         $this->assertEquals(0, $number);
     }
 
+    public function testIgnoreAddMethodWithSubtractAfterSemicolon()
+    {
+        $number = $this
+            ->add(5)
+            ->getCounterValue(); $this->subtract(50);
+        $this->assertEquals(0, $number);
+    }
+
     /**
      * TODO: Create separate mock object.
      *
