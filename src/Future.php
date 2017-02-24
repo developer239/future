@@ -18,7 +18,7 @@ namespace MichalJarnot;
 class Future
 {
     /**
-     * Returns expression string.
+     * Returns methods chain string.
      *
      * When we have code like `$start->add(4)->subtract(5)->getResult()`
      * and the add method calls `Future::predictFuture` method
@@ -30,13 +30,13 @@ class Future
      */
     private static function getMethodNamesBetween($string, $start)
     {
-        $expression = explode(";", $string)[0];
+        $chain = explode(";", $string)[0];
 
-        $firstPos = strpos($expression, $start);
-        $lastPos = strlen($expression);
+        $firstPos = strpos($chain, $start);
+        $lastPos = strlen($chain);
         $captureLen = $lastPos - $firstPos;
 
-        return substr($expression, $firstPos, $captureLen);
+        return substr($chain, $firstPos, $captureLen);
     }
 
     /**
@@ -57,7 +57,7 @@ class Future
         // Get target file
         $file = file($debugBacktrace["file"]);
 
-        // Build expression string
+        // Build methods chain string
         $searchString = "";
         $lineIndex = 1;
         $semicolonNotFound = true;
@@ -76,10 +76,10 @@ class Future
         // Start on target line from a calling method with its parameters
         $start = $debugBacktrace["function"] . "(" . implode(", ", $debugBacktrace["args"]) . ")";
 
-        // Get the methods chain
+        // Get the methods chain string
         $targetLineSubstring = self::getMethodNamesBetween($searchString, $start);
 
-        // Get all method names from the string
+        // Turn methods chain string to array of method names
         $futureMethods = explode("->", trim(preg_replace('/\s*\([^)]*\)/', '', $targetLineSubstring)));
 
         return $futureMethods;
